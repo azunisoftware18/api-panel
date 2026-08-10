@@ -1,18 +1,16 @@
 FROM node:20-alpine
 
 WORKDIR /app
-RUN apk add --no-cache curl wget
-RUN corepack enable
 
-COPY package.json ./
-RUN pnpm install
+COPY package.json package-lock.json* ./
+RUN npm install
 
 COPY . .
-RUN pnpm build
 
-ENV NODE_ENV=production
-ENV PORT=3000
+RUN npm run build
 
-EXPOSE 3000
+RUN npm install -g serve
 
-CMD ["pnpm", "start"]
+EXPOSE 1002
+
+CMD ["serve", "-s", "dist", "-l", "1002"]
