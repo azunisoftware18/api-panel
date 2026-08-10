@@ -1,0 +1,57 @@
+import { Router } from "express";
+import authRoute from "./auth.route.js";
+import packageRoute from "./package.routes.js";
+import userRoute from "./user.routes.js";
+import serviceRoute from "./service.route.js";
+import providerRoute from "./provider.route.js";
+import serviceProviderRoute from "./service-provider.route.js";
+import commissionSettingRoute from "./commission-setting.route.js";
+import userLimitRoute from "./user-limit.route.js";
+import apiKeyRoute from "./api-key.route.js";
+import permissionRoute from "./permission.route.js";
+import kycRoute from "./kyc.route.js";
+import bankDetailsRoute from "./bank-detail.route.js";
+import auditLogRoute from "./audit-log.route.js";
+import loginLogRoute from "./login-event.route.js";
+import apiKeyProviderMappingsRoute from "./api-key-provider-mapping.route.js";
+import bbpsRoute from "./bbps/bbps.route.js";
+import apiReferenceRoute from "./api-reference.route.js";
+import apiLanguageRoute from "./api-language.route.js";
+import ledgerEntryRoute from "./ledger-entry.routes.js";
+import aadhaarRoutes from "./aadhaar/aadhaar.routes.js";
+import transactionRoute from "./transaction.route.js";
+import fundRequestRoutes from "./fundRequest/fundRequest.route.js";
+import bankVerificationRoutes from "./bankVerification/bankVerification.routes.js";
+import dashboardRoute from "./dashboard.route.js";
+import systemSettingRoute from "./system-setting.route.js";
+
+const router = Router();
+
+router.use("/auth", authRoute);
+router.use("/packages", packageRoute);
+router.use("/users", userRoute);
+router.use("/services", serviceRoute);
+router.use("/providers", providerRoute);
+router.use("/service-provider", serviceProviderRoute);
+router.use("/commission-settings", commissionSettingRoute);
+router.use("/user-limit", userLimitRoute);
+router.use("/api-key", apiKeyRoute);
+router.use("/permission", permissionRoute);
+router.use("/kyc", kycRoute);
+router.use("/bank", bankDetailsRoute);
+router.use("/audit-logs", auditLogRoute);
+router.use("/login-logs", loginLogRoute);
+router.use("/api-key-provider-mappings", apiKeyProviderMappingsRoute);
+router.use("/bbps", bbpsRoute);
+router.use("/api-references", apiReferenceRoute);
+router.use("/api-languages", apiLanguageRoute);
+router.use("/ledger-entries", ledgerEntryRoute);
+router.use("/transactions", transactionRoute);
+router.use("/dashboard", dashboardRoute);
+router.use("/system-settings", systemSettingRoute);
+
+router.use("/aadhaar", aadhaarRoutes);
+router.use("/fund-request", fundRequestRoutes);
+router.use("/bank-verification", bankVerificationRoutes);
+
+export default router;

@@ -1,0 +1,54 @@
+import { Router } from "express";
+import ValidateRequest from "../middleware/validateRequest.middleware.js";
+import AuthValidationSchemas from "../validation/auth.validation.js";
+import AuthController from "../controller/auth.controller.js";
+import asyncHandler from "../utils/AsyncHandler.js";
+import AuthMiddleware from "../middleware/auth.middleware.js";
+
+const route = Router();
+
+route.post(
+  "/login",
+  ValidateRequest.validate(AuthValidationSchemas.login),
+  asyncHandler(AuthController.login)
+);
+
+route.post(
+  "/forgot-password",
+  ValidateRequest.validate(AuthValidationSchemas.forgotPassword),
+  asyncHandler(AuthController.forgotPassword)
+);
+
+route.post(
+  "/forgot-password-verify",
+  ValidateRequest.validate(AuthValidationSchemas.forgotPasswordVerify),
+  asyncHandler(AuthController.forgotPasswordVerify)
+);
+
+route.post(
+  "/reset-password",
+  AuthMiddleware.isAuthenticated,
+  ValidateRequest.validate(AuthValidationSchemas.resetPassword),
+  asyncHandler(AuthController.resetPassword)
+);
+
+route.post(
+  "/reset-pin",
+  AuthMiddleware.isAuthenticated,
+  ValidateRequest.validate(AuthValidationSchemas.resetPin),
+  asyncHandler(AuthController.resetPin)
+);
+
+route.post(
+  "/verify-pin",
+  AuthMiddleware.isAuthenticated,
+  ValidateRequest.validate({
+    body: AuthValidationSchemas.verifyPin,
+  }),
+  AuthController.verifyPin
+);
+
+route.get("/", AuthMiddleware.isAuthenticated, asyncHandler(AuthController.me));
+
+route.post("/logout", AuthMiddleware.isAuthenticated, AuthController.logout);
+export default route;
