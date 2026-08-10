@@ -20,8 +20,8 @@ import {
   AlertCircle,
 } from "lucide-react";
 
-import { systemSettingValidation } from "@/validation/systemSettingValidation";
 import { getValidationErrors } from "@/utils/validationErrors";
+import { systemSettingValidation } from "@/validation/systemSetting.validation";
 
 export default function SystemSettingForm({ initialData, onSubmit, onCancel }) {
   const [formData, setFormData] = useState({

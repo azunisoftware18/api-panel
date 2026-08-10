@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Settings, Plus } from "lucide-react";
+import { Settings, Plus, Building2, Mail } from "lucide-react";
 import { useDispatch } from "react-redux";
 
 import Header from "@/components/ui/Header";
@@ -24,8 +24,6 @@ import {
   setSystemSettingLoading,
   setSystemSettingError,
 } from "@/store/systemSettingSlice";
-
-import { Settings, Building2, Mail } from "lucide-react";
 
 export default function SystemSettingClient() {
   const dispatch = useDispatch();
