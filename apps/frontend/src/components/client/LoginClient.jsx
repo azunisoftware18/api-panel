@@ -30,7 +30,8 @@ export default function LoginClient() {
   const handleLogin = async (data) => {
     try {
       const res = await loginMutation.mutateAsync(data);
-      dispatch(setUser(res?.data?.user));
+      const user = res?.data?.user ?? res?.data;
+      dispatch(setUser(user));
 
       router.replace("/dashboard");
     } catch (err) {
