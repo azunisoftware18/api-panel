@@ -3,14 +3,13 @@ FROM node:20-alpine
 WORKDIR /app
 
 COPY package.json package-lock.json* ./
+
 RUN npm install
 
 COPY . .
 
 RUN npm run build
 
-RUN npm install -g serve
-
 EXPOSE 1002
 
-CMD ["serve", "-s", "dist", "-l", "1002"]
+CMD ["npm", "start", "--", "-p", "1002", "-H", "0.0.0.0"]
