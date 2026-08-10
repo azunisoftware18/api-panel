@@ -289,18 +289,12 @@ export default function UserClient() {
       }
 
       if (action === "apiKey") {
-        let res;
+        let res = await getApiCredentials.mutateAsync(pendingUser.id);
 
-        try {
-          res = await getApiCredentials.mutateAsync(pendingUser.id);
-        } catch (err) {
-          if (err?.statusCode === 404 || err?.response?.status === 404) {
-            res = await createApiKey.mutateAsync({
-              userId: pendingUser.id,
-            });
-          } else {
-            throw err;
-          }
+        if (res?.statusCode === 404 || res?.response?.status === 404) {
+          res = await createApiKey.mutateAsync({
+            userId: pendingUser.id,
+          });
         }
 
         setApiKeyData(res.data);
