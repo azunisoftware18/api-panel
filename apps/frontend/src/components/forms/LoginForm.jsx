@@ -25,7 +25,7 @@ export default function LoginForm({ onSubmit, onForgotPassword, loading }) {
   const [locationAllowed, setLocationAllowed] = useState(false);
   const [locationError, setLocationError] = useState("");
   const [locationDialog, setLocationDialog] = useState(false);
-
+  
   // --- Password Visibility State ---
   const [showPassword, setShowPassword] = useState(false);
 
@@ -141,39 +141,30 @@ export default function LoginForm({ onSubmit, onForgotPassword, loading }) {
           onClick={() => setShowPassword((prev) => !prev)}
           // Adjusted `top-[34px]` to align with standard input heights accounting for labels.
           // You may need to tweak this slightly depending on your custom <Input /> component's label height.
-          className="absolute right-4 top-[46px] text-slate-400 hover:text-primary transition p-1 text-slate-400 hover:text-slate-600 transition-colors"
+          className="absolute right-3 top-[34px] p-1 text-slate-400 hover:text-slate-600 transition-colors"
           aria-label={showPassword ? "Hide password" : "Show password"}
         >
-          {showPassword ? (
-            <EyeOff className="w-5 h-5" />
-          ) : (
-            <Eye className="w-5 h-5" />
-          )}
+          {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
         </button>
       </div>
 
       <div className="flex justify-end">
-        <Button
-          type="button"
-          variant="text"
-          onClick={onForgotPassword}
-          className="text-primary hover:underline font-medium transition"
-        >
+        <Button type="button" variant="text" onClick={onForgotPassword}>
           Forgot Password?
         </Button>
       </div>
 
       <Button
         type="submit"
-        fullWidth
+        variant="primary"
         size="lg"
+        fullWidth
         disabled={loading || locationLoading || !locationAllowed}
-        className="h-12 rounded-xl font-semibold"
       >
         {locationLoading
           ? "Getting Location..."
           : loading
-            ? "Signing In..."
+            ? "Logging..."
             : "Login"}
       </Button>
     </form>

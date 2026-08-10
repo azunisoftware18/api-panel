@@ -66,43 +66,42 @@ export default function LoginClient() {
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950">
-      {/* Background Glow */}
-      <div className="absolute -top-40 -left-40 h-96 w-96 rounded-full bg-cyan-500/20 blur-3xl" />
-      <div className="absolute bottom-0 right-0 h-[28rem] w-[28rem] rounded-full bg-indigo-600/20 blur-3xl" />
-      <div className="absolute top-1/2 left-1/2 h-[22rem] w-[22rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-sky-500/10 blur-3xl" />
+    <div
+      className="
+      min-h-screen
+      bg-[#76c8b1]
+      flex
+      items-center
+      justify-center
+      p-4
+    "
+    >
+      <LoginModal
+        handleLogin={handleLogin}
+        loading={loginMutation.isPending}
+        onForgotPassword={() => setForgotOpen(true)}
+      />
 
-      {/* Grid */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.04)_1px,transparent_1px)] bg-[size:40px_40px]" />
+      <ForgotPasswordModal
+        isOpen={forgotOpen}
+        onClose={() => setForgotOpen(false)}
+        onSubmit={handleForgotPassword}
+        loading={forgotMutation.isPending}
+      />
 
-      <div className="relative z-10 flex min-h-screen items-center justify-center px-4">
-        <LoginModal
-          handleLogin={handleLogin}
-          loading={loginMutation.isPending}
-          onForgotPassword={() => setForgotOpen(true)}
-        />
-
-        <ForgotPasswordModal
-          isOpen={forgotOpen}
-          onClose={() => setForgotOpen(false)}
-          onSubmit={handleForgotPassword}
-          loading={forgotMutation.isPending}
-        />
-
-        <ConfirmDialog
-          open={errorDialog.open}
-          onClose={() =>
-            setErrorDialog({
-              open: false,
-              message: "",
-            })
-          }
-          title="Notification"
-          description={errorDialog.message}
-          cancelText="Close"
-          variant="danger"
-        />
-      </div>
+      <ConfirmDialog
+        open={errorDialog.open}
+        onClose={() =>
+          setErrorDialog({
+            open: false,
+            message: "",
+          })
+        }
+        title="Notification"
+        variant="danger"
+        description={errorDialog.message}
+        cancelText="Close"
+      />
     </div>
   );
 }
