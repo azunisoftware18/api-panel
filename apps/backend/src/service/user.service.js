@@ -3,7 +3,7 @@ import { emailQueue } from "../queues/email.queue.js";
 import { ApiError } from "../utils/ApiError.js";
 import CryptoService from "../utils/crypto.utils.js";
 import HelperUtils from "../utils/helper.utils.js";
-import S3ServiceUtils from "../utils/S3Service.utils.js";
+import S3ServiceUtils from "../utils/s3Service.utils.js";
 import WalletService from "./wallet.service.js";
 
 class UserService {

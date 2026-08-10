@@ -1,7 +1,7 @@
 import prisma from "../db/db.js";
 import { ApiError } from "../utils/ApiError.js";
 import HelperUtils from "../utils/helper.utils.js";
-import S3Service from "../utils/S3Service.utils.js";
+import S3Service from "../utils/s3Service.utils.js";
 
 class KycService {
   // CREATE
