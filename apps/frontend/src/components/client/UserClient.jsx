@@ -294,7 +294,7 @@ export default function UserClient() {
         try {
           res = await getApiCredentials.mutateAsync(pendingUser.id);
         } catch (err) {
-          if (err?.status === 404 || err?.response?.status === 404) {
+          if (err?.statusCode === 404 || err?.response?.status === 404) {
             res = await createApiKey.mutateAsync({
               userId: pendingUser.id,
             });

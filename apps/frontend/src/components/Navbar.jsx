@@ -212,13 +212,14 @@ export default function Navbar() {
         try {
           res = await getCredentials.mutateAsync(user.id);
         } catch (err) {
-          if (err?.response?.status === 404 || err?.status === 404) {
+          if (err?.response?.statusCode === 404 || err?.statusCode === 404) {
             res = await createApiKey.mutateAsync({
               userId: user.id,
             });
           } else {
             throw err;
           }
+          console.log("init success pin verify");
         }
 
         setCredential(res.data);
