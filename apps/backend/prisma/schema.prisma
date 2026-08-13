@@ -64,7 +64,7 @@ model AuditLog {
   domainName String? @map("domain_name")
   userAgent  String? @map("user_agent")
   status     String? // SUCCESS / FAILED
-  message    String?
+  message    String? @db.LongText
 
   oldValues Json? @map("old_values")
   newValues Json? @map("new_values")
