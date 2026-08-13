@@ -17,7 +17,7 @@ class ApiKeyMiddleware {
       if (!secretKey) {
         throw ApiError.unauthorized("x-secret-key missing");
       }
-      console.log("init");
+      console.log("init", apiKey, secretKey);
 
       // FIND API KEY
       const apiKeyData = await prisma.apiKey.findUnique({
