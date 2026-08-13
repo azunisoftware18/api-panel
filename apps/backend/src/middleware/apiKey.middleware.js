@@ -20,7 +20,7 @@ class ApiKeyMiddleware {
       console.log("init", apiKey, secretKey);
 
       // FIND API KEY
-      const apiKeyData = await prisma.apiKey.findUnique({
+      const apiKeyData = await prisma.apiKey.findFirst({
         where: {
           apiKey,
         },
