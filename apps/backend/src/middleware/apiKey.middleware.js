@@ -17,7 +17,6 @@ class ApiKeyMiddleware {
       if (!secretKey) {
         throw ApiError.unauthorized("x-secret-key missing");
       }
-      console.log("init", apiKey, secretKey);
 
       // FIND API KEY
       const apiKeyData = await prisma.apiKey.findFirst({
@@ -34,13 +33,16 @@ class ApiKeyMiddleware {
             },
 
             include: {
-              provider: true,
-              service: true,
+              serviceProvider: {
+                include: {
+                  service: true,
+                  provider: true,
+                },
+              },
             },
           },
         },
       });
-      console.log("init",apiKeyData);
 
       if (!apiKeyData) {
         throw ApiError.unauthorized("Invalid API key");
@@ -49,12 +51,13 @@ class ApiKeyMiddleware {
       // SECRET KEY VALIDATE
       const decryptedSecret = await CryptoService.decrypt(apiKeyData.secretKey);
 
-      const isValid = crypto.timingSafeEqual(
-        Buffer.from(decryptedSecret),
-        Buffer.from(secretKey)
-      );
+      const decryptedBuffer = Buffer.from(decryptedSecret);
+      const receivedBuffer = Buffer.from(secretKey);
 
-      if (!isValid) {
+      if (
+        decryptedBuffer.length !== receivedBuffer.length ||
+        !crypto.timingSafeEqual(decryptedBuffer, receivedBuffer)
+      ) {
         throw ApiError.unauthorized("Invalid secret key");
       }
 
@@ -73,6 +76,7 @@ class ApiKeyMiddleware {
         throw ApiError.forbidden("User not found");
       }
 
+      // PROVIDER MAPPING CHECK
       if (
         !apiKeyData.apiKeyProviderMappings ||
         apiKeyData.apiKeyProviderMappings.length === 0
@@ -98,7 +102,7 @@ class ApiKeyMiddleware {
       prisma.apiKey
         .update({
           where: {
-            id: apiKeyData?.id,
+            id: apiKeyData.id,
           },
 
           data: {
@@ -110,10 +114,11 @@ class ApiKeyMiddleware {
 
       // REQUEST ATTACH
       req.apiKey = {
-        id: apiKeyData?.id,
+        id: apiKeyData.id,
         apiKey: apiKeyData.apiKey,
         mappings: apiKeyData.apiKeyProviderMappings,
       };
+
       req.user = apiKeyData.user;
 
       next();
