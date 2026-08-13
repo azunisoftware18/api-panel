@@ -12,9 +12,9 @@ class ApiKeyProviderMappingService {
         },
       }),
 
-      prisma.service.findUnique({
+      prisma.serviceProvider.findUnique({
         where: {
-          id: payload.serviceId,
+          id: payload.serviceProviderId,
         },
       }),
 
@@ -41,7 +41,7 @@ class ApiKeyProviderMappingService {
       where: {
         apiKeyId: payload.apiKeyId,
 
-        serviceId: payload.serviceId,
+        serviceProviderId: payload.serviceProviderId,
 
         providerId: payload.providerId,
       },
@@ -57,7 +57,7 @@ class ApiKeyProviderMappingService {
       include: {
         apiKey: true,
 
-        service: true,
+        serviceProvider: true,
 
         provider: true,
       },
@@ -82,7 +82,7 @@ class ApiKeyProviderMappingService {
       include: {
         apiKey: true,
 
-        service: true,
+        serviceProvider: true,
 
         provider: true,
       },
@@ -94,7 +94,7 @@ class ApiKeyProviderMappingService {
     page = 1,
     limit = 10,
     apiKeyId,
-    serviceId,
+    serviceProviderId,
     providerId,
     isActive,
   }) {
@@ -105,8 +105,8 @@ class ApiKeyProviderMappingService {
         apiKeyId,
       }),
 
-      ...(serviceId && {
-        serviceId,
+      ...(serviceProviderId && {
+        serviceProviderId,
       }),
 
       ...(providerId && {
@@ -129,7 +129,7 @@ class ApiKeyProviderMappingService {
         include: {
           apiKey: true,
 
-          service: true,
+          serviceProvider: true,
 
           provider: true,
         },

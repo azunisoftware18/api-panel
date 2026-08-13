@@ -10,7 +10,7 @@ export default function ApiKeyProviderMappingModal({
   onSubmit,
   initialData,
   apiKeys = [],
-  services = [],
+  serviceProviders = [],
   providers = [],
 }) {
   useEffect(() => {
@@ -62,7 +62,7 @@ export default function ApiKeyProviderMappingModal({
             onSubmit={onSubmit}
             onCancel={onClose}
             apiKeys={apiKeys}
-            services={services}
+            serviceProviders={serviceProviders}
             providers={providers}
           />
         </div>

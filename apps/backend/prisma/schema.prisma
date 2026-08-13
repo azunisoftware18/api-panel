@@ -503,9 +503,8 @@ model Service {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
-  serviceProviders       ServiceProvider[]
-  permissions            Permission[]
-  apiKeyProviderMappings ApiKeyProviderMapping[]
+  serviceProviders ServiceProvider[]
+  permissions      Permission[]
 
   @@map("services")
 }
@@ -581,13 +580,14 @@ model ServiceProvider {
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
   // RELATIONS
-  service            Service             @relation(fields: [serviceId], references: [id])
-  provider           Provider            @relation(fields: [providerId], references: [id])
-  transactions       Transaction[]
-  ledgerEntries      LedgerEntry[]
-  commissionSettings CommissionSetting[]
-  commissionEarnings CommissionEarning[]
-  bbpsFetchBills     BbpsFetchBill[]
+  service                Service                 @relation(fields: [serviceId], references: [id])
+  provider               Provider                @relation(fields: [providerId], references: [id])
+  transactions           Transaction[]
+  ledgerEntries          LedgerEntry[]
+  commissionSettings     CommissionSetting[]
+  commissionEarnings     CommissionEarning[]
+  bbpsFetchBills         BbpsFetchBill[]
+  apiKeyProviderMappings ApiKeyProviderMapping[]
 
   // INDEXES
   @@index([serviceId])
@@ -627,21 +627,21 @@ model Permission {
 }
 
 model ApiKeyProviderMapping {
-  id         String   @id @default(uuid())
-  apiKeyId   String   @map("api_key_id")
-  serviceId  String   @map("service_id")
-  providerId String   @map("provider_id")
-  priority   Int      @default(1)
-  isActive   Boolean  @default(true) @map("is_active")
-  apiKey     ApiKey   @relation(fields: [apiKeyId], references: [id])
-  service    Service  @relation(fields: [serviceId], references: [id])
-  provider   Provider @relation(fields: [providerId], references: [id])
-  createdAt  DateTime @default(now()) @map("created_at")
+  id                String          @id @default(uuid())
+  apiKeyId          String          @map("api_key_id")
+  serviceProviderId String          @map("service_provider_id")
+  providerId        String          @map("provider_id")
+  priority          Int             @default(1)
+  isActive          Boolean         @default(true) @map("is_active")
+  apiKey            ApiKey          @relation(fields: [apiKeyId], references: [id])
+  serviceProvider   ServiceProvider @relation(fields: [serviceProviderId], references: [id])
+  provider          Provider        @relation(fields: [providerId], references: [id])
+  createdAt         DateTime        @default(now()) @map("created_at")
 
-  @@unique([apiKeyId, serviceId, providerId])
+  @@unique([apiKeyId, serviceProviderId, providerId])
   @@index([apiKeyId])
   @@index([providerId])
-  @@index([serviceId])
+  @@index([serviceProviderId])
   @@map("api_key_provider_mappings")
 }
 
@@ -652,7 +652,7 @@ model SystemSetting {
   companyLogo   String    @map("company_logo")
   favIcon       String    @map("fav_icon")
   phoneNumber   String    @map("phone_number")
-  whtsappNumber String?    @map("whtsapp_number")
+  whtsappNumber String?   @map("whtsapp_number")
   companyEmail  String    @map("company_email")
   facebookUrl   String    @map("facebook_url")
   instagramUrl  String    @map("instagram_url")

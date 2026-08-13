@@ -17,12 +17,12 @@ export default function ApiKeyProviderMappingForm({
   onSubmit,
   onCancel,
   apiKeys = [],
-  services = [],
+  serviceProviders = [],
   providers = [],
 }) {
   const [formData, setFormData] = useState({
     apiKeyId: "",
-    serviceId: "",
+    serviceProviderId: "",
     providerId: "",
     priority: 1,
     isActive: true,
@@ -35,10 +35,13 @@ export default function ApiKeyProviderMappingForm({
     if (initialData) {
       setFormData({
         apiKeyId: initialData.apiKeyId || "",
-        serviceId: initialData.serviceId || "",
+        serviceProviderId: initialData.serviceProviderId || "",
         providerId: initialData.providerId || "",
         priority: initialData.priority || 1,
-        isActive: typeof initialData.isActive === "boolean" ? initialData.isActive : true,
+        isActive:
+          typeof initialData.isActive === "boolean"
+            ? initialData.isActive
+            : true,
       });
     }
   }, [initialData]);
@@ -82,10 +85,7 @@ export default function ApiKeyProviderMappingForm({
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="flex max-h-[75vh] flex-col"
-    >
+    <form onSubmit={handleSubmit} className="flex max-h-[75vh] flex-col">
       <div className="flex-1 space-y-6 overflow-y-auto">
         {formError && (
           <Alert type="error" title="Error" icon={<AlertCircle />}>
@@ -94,15 +94,21 @@ export default function ApiKeyProviderMappingForm({
         )}
 
         <div className="grid grid-cols-2 gap-5">
-
           <div>
             <SelectField
               label="API KEY"
               value={formData.apiKeyId}
               error={errors.apiKeyId}
               options={apiKeys.map((item) => {
-                const title = item.name || item.user?.fullName || item.apiKey || item.id || "Unknown";
-                const subtitle = item.user?.fullName ? ` (${item.user.fullName})` : "";
+                const title =
+                  item.name ||
+                  item.user?.fullName ||
+                  item.apiKey ||
+                  item.id ||
+                  "Unknown";
+                const subtitle = item.user?.fullName
+                  ? ` (${item.user.fullName})`
+                  : "";
 
                 return {
                   label: item.name ? `${item.name}${subtitle}` : title,
@@ -123,22 +129,25 @@ export default function ApiKeyProviderMappingForm({
 
           <div>
             <SelectField
-              label="SERVICE"
-              value={formData.serviceId}
-              error={errors.serviceId}
-              options={services.map((item) => ({
-                label: item.name,
+              label="SERVICE PROVIDER"
+              value={formData.serviceProviderId}
+              error={errors.serviceProviderId}
+              options={serviceProviders.map((item) => ({
+                label: `${item.service.name} - ${item.transactionType
+                  ?.toLowerCase()
+                  .replace(/_/g, " ")
+                  .replace(/\b\w/g, (char) => char.toUpperCase())} ${item.provider.name}`,
                 value: item.id,
               }))}
               searchable
               onChange={(value) => {
                 setFormData((prev) => ({
                   ...prev,
-                  serviceId: value,
+                  serviceProviderId: value,
                 }));
-                clearError("serviceId");
+                clearError("serviceProviderId");
               }}
-              placeholder="Select Service"
+              placeholder="Select Service Provider"
             />
           </div>
 
@@ -198,24 +207,17 @@ export default function ApiKeyProviderMappingForm({
               }
             />
           </div>
-
         </div>
       </div>
 
       <div className="flex justify-end gap-3 border-t pt-5">
-
-        <Button
-          type="button"
-          variant="outline"
-          onClick={onCancel}
-        >
+        <Button type="button" variant="outline" onClick={onCancel}>
           Cancel
         </Button>
 
         <Button type="submit">
           {initialData ? "Update Mapping" : "Create Mapping"}
         </Button>
-
       </div>
     </form>
   );

@@ -19,7 +19,7 @@ import {
 } from "@/hooks/useApiKeyProviderMapping";
 
 import { useGetApiKeys } from "@/hooks/useApiKey";
-import { useGetAllServices } from "@/hooks/useService";
+import { useGetAllServiceProviders } from "@/hooks/useServiceProvider";
 import { useGetAllProviders } from "@/hooks/useProvider";
 
 import {
@@ -53,7 +53,7 @@ export default function ApiKeyProviderMappingClient() {
   const deleteMapping = useDeleteApiKeyProviderMapping();
 
   const getApiKeys = useGetApiKeys();
-  const { data: servicesResponse } = useGetAllServices({
+  const { data: serviceProvidersResponse } = useGetAllServiceProviders({
     page: 1,
     limit: 100,
     search: "",
@@ -64,7 +64,7 @@ export default function ApiKeyProviderMappingClient() {
     search: "",
   });
 
-  const services = servicesResponse?.data?.data || [];
+  const serviceProviders = serviceProvidersResponse?.data?.data || [];
   const providers = providersResponse?.data?.data || [];
 
   useEffect(() => {
@@ -256,7 +256,7 @@ export default function ApiKeyProviderMappingClient() {
         open={openModal}
         initialData={editingData}
         apiKeys={apiKeysList}
-        services={services}
+        serviceProviders={serviceProviders}
         providers={providers}
         onClose={() => {
           setOpenModal(false);

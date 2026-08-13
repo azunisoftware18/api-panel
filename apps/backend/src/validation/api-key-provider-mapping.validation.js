@@ -5,7 +5,7 @@ class ApiKeyProviderMappingValidationSchemas {
   static get createMapping() {
     return z.object({
       apiKeyId: z.uuid(),
-      serviceId: z.uuid(),
+      serviceProviderId: z.uuid(),
       providerId: z.uuid(),
       priority: z.coerce.number().min(1).optional(),
       isActive: z.boolean().optional(),
@@ -16,7 +16,6 @@ class ApiKeyProviderMappingValidationSchemas {
   static get updateMapping() {
     return z.object({
       priority: z.coerce.number().min(1).optional(),
-
       isActive: z.boolean().optional(),
     });
   }
@@ -37,7 +36,7 @@ class ApiKeyProviderMappingValidationSchemas {
 
       apiKeyId: z.uuid().optional(),
 
-      serviceId: z.uuid().optional(),
+      serviceProviderId: z.uuid().optional(),
 
       providerId: z.uuid().optional(),
 

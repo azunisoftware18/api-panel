@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const apiKeyProviderMappingValidation = z.object({
   apiKeyId: z.string().min(1, "API Key is required"),
-  serviceId: z.string().min(1, "Service is required"),
+  serviceProviderId: z.string().min(1, "Service Provider ID is required"),
   providerId: z.string().min(1, "Provider is required"),
   priority: z.coerce
     .number({ required_error: "Priority is required" })
